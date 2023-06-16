@@ -10,9 +10,11 @@ const app = initializeApp(appSettings);
 const database = getDatabase(app);
 const messagesInDB = ref(database, "messageList")
 const inputEl = document.getElementById("userInput")
+const fromEl = document.getElementById("from")
+const toEl = document.getElementById("to")
 const btnEl = document.getElementById("publish-btn")
 const containerEl = document.getElementById("container")
-
+const messageEl = document.getElementsByClassName("message")
 
 onValue(messagesInDB, function(snapshot) {
     let messageArray = Object.values(snapshot.val())
@@ -24,11 +26,21 @@ onValue(messagesInDB, function(snapshot) {
 })
 
 btnEl.addEventListener("click", function(){
-    let message = inputEl.value;
-    push(messagesInDB, message);
-    clearInput(inputEl)
+    const messageObj = {
+        from: fromEl.value,
+        message: inputEl.value,
+        to: toEl.value
+    }
+    push(messagesInDB, messageObj);
+    clearInput(inputEl);
+    clearInput(toEl);
+    clearInput(fromEl);
 })
 
+
+function appendContainer(currentMessage){
+    containerEl.innerHTML += `<div class="message">to ${currentMessage.to} <br> ${currentMessage.message} <br> from ${currentMessage.from}</div>`
+}
 
 function clearInput(variable) {
     variable.value = ""
@@ -36,8 +48,4 @@ function clearInput(variable) {
 
 function clearList(variable) {
     variable.innerHTML = "";
-}
-
-function appendContainer(currentMessage){
-    containerEl.innerHTML += `<div>${currentMessage}</div>`
 }

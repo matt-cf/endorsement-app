@@ -2,3 +2,20 @@ html, body {
     margin: 0;
     padding: 0;
 }
+
+div {
+    padding: 30px
+}
+
+#container {
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.message {
+    padding: 5px;
+}
+
+.message:hover {
+    cursor: pointer;
+}
